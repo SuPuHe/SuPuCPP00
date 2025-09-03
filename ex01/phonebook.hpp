@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 15:06:06 by omizin            #+#    #+#             */
-/*   Updated: 2025/09/01 15:31:08 by omizin           ###   ########.fr       */
+/*   Updated: 2025/09/03 16:28:58 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ class PhoneBook
 
 	public:
 		PhoneBook();
-		
+
 		void addContact(const Contact &c);
 		Contact getContact(int index) const;
-		void displayContacts() const;
+		void displayContacts(int index) const;
 };
 
 #endif
