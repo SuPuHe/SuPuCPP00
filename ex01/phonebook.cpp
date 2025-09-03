@@ -6,7 +6,7 @@
 /*   By: omizin <omizin@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 15:33:07 by omizin            #+#    #+#             */
-/*   Updated: 2025/09/02 12:48:52 by omizin           ###   ########.fr       */
+/*   Updated: 2025/09/03 16:32:54 by omizin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,36 @@ static std::string formatField(const std::string &str)
 	return (std::string(10 - str.length(), ' ') + str);
 }
 
-void PhoneBook::displayContacts() const
+void PhoneBook::displayContacts(int index) const
 {
 	std::cout << "---------------------------------------------" << std::endl;
 	std::cout << "|     Index|First Name| Last Name|  Nickname|" << std::endl;
 	std::cout << "---------------------------------------------" << std::endl;
 
-	for (int i = 0; i < 8; i++)
+	if (index >= 0 && index <= 7)
 	{
-		if (contacts[i].getFirstName().empty())
-			continue;
-
 		std::cout << "|"
-				<< std::setw(10) << i << "|"
-				<< formatField(contacts[i].getFirstName()) << "|"
-				<< formatField(contacts[i].getLastName()) << "|"
-				<< formatField(contacts[i].getNickname()) << "|"
-				<< std::endl;
-		std::cout << "---------------------------------------------" << std::endl;
+					<< std::setw(10) << index << "|"
+					<< formatField(contacts[index].getFirstName()) << "|"
+					<< formatField(contacts[index].getLastName()) << "|"
+					<< formatField(contacts[index].getNickname()) << "|"
+					<< std::endl;
+			std::cout << "---------------------------------------------" << std::endl;
+	}
+	else
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (contacts[i].getFirstName().empty())
+				continue;
+
+			std::cout << "|"
+					<< std::setw(10) << i << "|"
+					<< formatField(contacts[i].getFirstName()) << "|"
+					<< formatField(contacts[i].getLastName()) << "|"
+					<< formatField(contacts[i].getNickname()) << "|"
+					<< std::endl;
+			std::cout << "---------------------------------------------" << std::endl;
+		}
 	}
 }
-
