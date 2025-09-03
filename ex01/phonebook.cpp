@@ -37,36 +37,23 @@ static std::string formatField(const std::string &str)
 	return (std::string(10 - str.length(), ' ') + str);
 }
 
-void PhoneBook::displayContacts(int index) const
+void PhoneBook::displayContacts() const
 {
 	std::cout << "---------------------------------------------" << std::endl;
 	std::cout << "|     Index|First Name| Last Name|  Nickname|" << std::endl;
 	std::cout << "---------------------------------------------" << std::endl;
 
-	if (index >= 0 && index <= 7)
+	for (int i = 0; i < 8; i++)
 	{
-		std::cout << "|"
-					<< std::setw(10) << index << "|"
-					<< formatField(contacts[index].getFirstName()) << "|"
-					<< formatField(contacts[index].getLastName()) << "|"
-					<< formatField(contacts[index].getNickname()) << "|"
-					<< std::endl;
-			std::cout << "---------------------------------------------" << std::endl;
-	}
-	else
-	{
-		for (int i = 0; i < 8; i++)
-		{
-			if (contacts[i].getFirstName().empty())
-				continue;
+		if (contacts[i].getFirstName().empty())
+			continue;
 
-			std::cout << "|"
-					<< std::setw(10) << i << "|"
-					<< formatField(contacts[i].getFirstName()) << "|"
-					<< formatField(contacts[i].getLastName()) << "|"
-					<< formatField(contacts[i].getNickname()) << "|"
-					<< std::endl;
-			std::cout << "---------------------------------------------" << std::endl;
-		}
+		std::cout << "|"
+				<< std::setw(10) << i << "|"
+				<< formatField(contacts[i].getFirstName()) << "|"
+				<< formatField(contacts[i].getLastName()) << "|"
+				<< formatField(contacts[i].getNickname()) << "|"
+				<< std::endl;
+		std::cout << "---------------------------------------------" << std::endl;
 	}
 }
