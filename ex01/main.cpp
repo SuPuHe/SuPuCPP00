@@ -15,13 +15,21 @@
 #include "contact.hpp"
 #include "phonebook.hpp"
 
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+
 std::string getUserInput(std::string message)
 {
 	std::string user_input = "";
 
 	while (user_input.length() == 0)
 	{
-		std::cout << message;
+		std::cout << YELLOW << message << RESET;
 		if (!(std::getline(std::cin, user_input)))
 			exit(0);
 	}
@@ -54,34 +62,38 @@ void	add_command(PhoneBook *phonebook)
 void	search_command(PhoneBook *phonebook)
 {
 	std::string	index_str;
-	int			index;
+	int			index = -1;
+
+	phonebook->displayContacts();
 
 	index_str = getUserInput("Enter index of contact: ");
-	for (size_t i = 0; i < index_str.size(); i++)
-	{
-		if (!(std::isdigit(index_str[i])))
-		{
-			std::cout << "Only digits allowed" << std::endl;
-			return search_command(phonebook);
-		}
-	}
+
 	try
 	{
 		index = std::stoi(index_str);
 	}
 	catch (const std::out_of_range &)
 	{
-		std::cout << "Number is too large, try again." << std::endl;
-		return search_command(phonebook);
+		std::cout << RED << "Number is too large, try again." << RESET << std::endl;
+		return;
 	}
 	catch (const std::invalid_argument &)
 	{
-		std::cout << "Invalid input, try again." << std::endl;
-		return search_command(phonebook);
+		std::cout << RED << "Invalid input, try again." << RESET << std::endl;
+		return;
 	}
-	if (!(index >= 0 && index <= 7))
-		std::cout << "Index beyond range. Display all contacts" << std::endl;
-	phonebook->displayContacts(index);
+	if (index < 0 || index > 7 || phonebook->getContact(index).getFirstName().empty())
+	{
+		std::cout << RED << "Invalid index or empy contact" << RESET << std::endl;
+		return;
+	}
+	Contact temp = phonebook->getContact(index);
+	std::cout << CYAN << "Contact details by index: " << RESET << index << std::endl;
+	std::cout << MAGENTA << "First Name: " << RESET << temp.getFirstName() << std::endl;
+	std::cout << MAGENTA << "Last Name: " << RESET << temp.getLastName() << std::endl;
+	std::cout << MAGENTA << "Nickname: " << RESET << temp.getNickname() << std::endl;
+	std::cout << MAGENTA << "Number: " << RESET << temp.getNumber() << std::endl;
+	std::cout << MAGENTA << "Secret: " << RESET << temp.getSecret() << std::endl;
 }
 
 int	main(void)
@@ -91,7 +103,7 @@ int	main(void)
 
 	while (1)
 	{
-		std::cout << "Wait for command (ADD, SEARCH, EXIT)" << std::endl;
+		std::cout << GREEN << "Wait for command (ADD, SEARCH, EXIT)" << RESET << std::endl;
 		if (!(std::getline(std::cin, command)))
 			return (1);
 		if (command.compare("ADD") == 0)
