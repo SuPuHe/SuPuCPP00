@@ -1,6 +1,14 @@
 #include "Account.hpp"
 #include <iostream>
 
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+
 int Account::_nbAccounts = 0;
 int Account::_totalAmount = 0;
 int Account::_totalNbDeposits = 0;
@@ -12,11 +20,13 @@ Account::Account(int initial_deposit)
 	_accountIndex = _nbAccounts;
 	_nbAccounts++;
 	_totalAmount += initial_deposit;
-	std::cout << "index:" << _accountIndex << ";amount:" << _amount << ";created" << std::endl;
+	std::cout << CYAN << "index:" << _accountIndex << ";amount:"
+			<< _amount << ";created" << RESET << std::endl;
 }
 Account::~Account(void)
 {
-	std::cout << "index:" << _accountIndex << ";amount:" << _amount << ";closed" << std::endl;
+	std::cout << RED << "index:" << _accountIndex << ";amount:"
+			<< _amount << ";closed" << RESET << std::endl;
 }
 
 
@@ -27,19 +37,41 @@ int	Account::getNbWithdrawals( void ) { return _totalNbWithdrawals; };
 
 void	Account::displayAccountsInfos( void )
 {
-	std::cout << "account:" << _nbAccounts << ";total:"
+	std::cout << GREEN << "accounts:" << _nbAccounts << ";total:"
 			<< _totalAmount << ";deposits:" << _totalNbDeposits
-			<< ";withdrawals:" << _totalNbWithdrawals << std::endl;
+			<< ";withdrawals:" << _totalNbWithdrawals << RESET << std::endl;
 }
 
 void	Account::makeDeposit( int deposit )
 {
-	std::cout << "makeDeposit: " << deposit << std::endl;
+	int	p_amount = _amount;
+	_amount += deposit;
+	_totalAmount += deposit;
+	_nbDeposits++;
+	_totalNbDeposits += _nbDeposits;
+	std::cout << "index:" << _accountIndex << ";p_amount:"
+			<< p_amount << ";deposit:" << deposit
+			<< ";amount:" << _amount
+			<< ";nb_deposits:" << _nbDeposits << std::endl;
 }
 
 bool	Account::makeWithdrawal( int withdrawal )
 {
-	std::cout << "makeWithdrawal: " << withdrawal << std::endl;
+	int	p_amount = _amount;
+	if (withdrawal > _amount)
+	{
+		std::cout << "index:" << _accountIndex << ";p_amount:"
+				<< p_amount << ";withdrawal:refused" << std::endl;
+		return (false);
+	}
+	_nbWithdrawals++;
+	_totalNbWithdrawals += _nbWithdrawals;
+	_amount -= withdrawal;
+	_totalAmount -= withdrawal;
+	std::cout << "index:" << _accountIndex << ";p_amount:"
+			<< p_amount << ";withdrawal:" << withdrawal
+			<< ";amount:" << _amount
+			<< ";nb_withdrawals:" << _nbWithdrawals << std::endl;
 	return (true);
 }
 
@@ -51,7 +83,7 @@ int		Account::checkAmount( void ) const
 
 void	Account::displayStatus( void ) const
 {
-	std::cout << "account:" << _accountIndex << ";total:"
+	std::cout << MAGENTA << "index:" << _accountIndex << ";total:"
 			<< _amount << ";deposits:" << _nbDeposits
-			<< ";withdrawals:" << _nbWithdrawals << std::endl;
+			<< ";withdrawals:" << _nbWithdrawals << RESET << std::endl;
 }
