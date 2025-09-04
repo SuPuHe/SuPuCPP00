@@ -27,7 +27,9 @@ int	Account::getNbWithdrawals( void ) { return _totalNbWithdrawals; };
 
 void	Account::displayAccountsInfos( void )
 {
-	std::cout << "displayAccountsInfos" << std::endl;
+	std::cout << "account:" << _nbAccounts << ";total:"
+			<< _totalAmount << ";deposits:" << _totalNbDeposits
+			<< ";withdrawals:" << _totalNbWithdrawals << std::endl;
 }
 
 void	Account::makeDeposit( int deposit )
@@ -49,5 +51,7 @@ int		Account::checkAmount( void ) const
 
 void	Account::displayStatus( void ) const
 {
-	std::cout << "displayStatus" << std::endl;
+	std::cout << "account:" << _accountIndex << ";total:"
+			<< _amount << ";deposits:" << _nbDeposits
+			<< ";withdrawals:" << _nbWithdrawals << std::endl;
 }
